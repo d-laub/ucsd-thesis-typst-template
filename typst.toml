@@ -1,0 +1,7 @@
+[package]
+name = "ucsd-dissertation"
+version = "0.0.1"
+entrypoint = "lib/template.typ"
+authors = ["David Laub"]
+license = "MIT"
+description = "Typst template for UC San Diego doctoral dissertations (non-joint PhD)."

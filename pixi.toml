@@ -1,0 +1,12 @@
+[workspace]
+name = "ucsd-dissertation"
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+[dependencies]
+typst = ">=0.13"
+
+[tasks]
+build = "typst compile --font-path fonts tests/smoke.typ build/smoke.pdf"
+calibrate = "typst query --font-path fonts tests/calibration.typ '<calib>' --field value --one --pretty"
+fonts = "typst fonts --font-path fonts"
