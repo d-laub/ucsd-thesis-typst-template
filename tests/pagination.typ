@@ -1,5 +1,5 @@
 #import "../lib/template.typ": dissertation
-#import "../lib/pagination.typ": front-matter, main-matter
+#import "../lib/pagination.typ": front-matter, main-matter, back-matter
 
 #show: dissertation
 
@@ -60,4 +60,14 @@
   let n = counter(page).get().first()
   assert(n == 2, message: "second body page should count 2, got " + str(n))
   [Body page #metadata(n) <p-body-2>]
+}
+#pagebreak()
+
+#back-matter()
+
+// Back matter continues the Arabic sequence with NO reset.
+#context {
+  let n = counter(page).get().first()
+  assert(n == 3, message: "back-matter page should continue at 3 (no reset), got " + str(n))
+  [Back matter page #metadata(n) <p-back-1>]
 }

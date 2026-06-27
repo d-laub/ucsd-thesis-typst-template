@@ -19,3 +19,8 @@
   set page(numbering: "1", footer: _footer, footer-descent: 0.5in)
   counter(page).update(1)
 }
+
+// Back matter: semantic marker only. Body and back matter share one continuous
+// Arabic sequence, so this MUST NOT reset or alter the page counter.
+#let back-matter() = {
+}
