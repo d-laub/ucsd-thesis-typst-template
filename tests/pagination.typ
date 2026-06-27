@@ -1,5 +1,5 @@
 #import "../lib/template.typ": dissertation
-#import "../lib/pagination.typ": front-matter
+#import "../lib/pagination.typ": front-matter, main-matter
 
 #show: dissertation
 
@@ -44,4 +44,20 @@
   let n = counter(page).get().first()
   assert(n == 5, message: "prelim page should count 5, got " + str(n))
   [Prelim page #metadata(n) <p-v>]
+}
+
+#main-matter()
+
+// Body restarts at Arabic 1.
+#context {
+  let n = counter(page).get().first()
+  assert(n == 1, message: "first body page should restart at 1, got " + str(n))
+  [Body page #metadata(n) <p-body-1>]
+}
+#pagebreak()
+
+#context {
+  let n = counter(page).get().first()
+  assert(n == 2, message: "second body page should count 2, got " + str(n))
+  [Body page #metadata(n) <p-body-2>]
 }

@@ -10,3 +10,12 @@
 #let front-matter() = {
   set page(numbering: "i", footer: _footer, footer-descent: 0.5in)
 }
+
+// Main matter: restart the page counter at Arabic 1, same centered footer.
+// This `set page` overrides front-matter's from here to the end of the document.
+// NOTE: `set page` must come before `counter(page).update` in the function body;
+// reversing the order causes the numbering change to shadow the explicit update.
+#let main-matter() = {
+  set page(numbering: "1", footer: _footer, footer-descent: 0.5in)
+  counter(page).update(1)
+}
