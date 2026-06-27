@@ -7,6 +7,6 @@ platforms = ["linux-64"]
 typst = ">=0.15,<0.16"
 
 [tasks]
-build = "typst compile --font-path fonts --root . tests/smoke.typ build/smoke.pdf"
+build = "mkdir -p build && typst compile --font-path fonts --root . tests/smoke.typ build/smoke.pdf"
 calibrate = "typst eval --font-path fonts --root . --in tests/calibration.typ --pretty 'query(<calib>).first().value'"
 fonts = "typst fonts --font-path fonts"
