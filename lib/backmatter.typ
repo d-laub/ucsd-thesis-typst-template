@@ -7,11 +7,18 @@
 //
 // This module is applied in the document via `#show: backmatter-rules` and the
 // `#appendix(title, body)` helper; it does NOT modify `dissertation()`.
+//
+// CROSS-MODULE CONTRACT: lib/pagination.typ's back-matter() sets
+// state("ucsd-matter") to "back" before any back-matter content.  floats-rules
+// (lib/floats.typ) reads this same state key to skip chapter rendering for
+// level-1 headings (appendix, bibliography) in back/front matter.
 // ============================================================================
 
 #import "blocks.typ": single-spaced
 
 // Single line leading within a bibliography entry (Typst native single).
+// NOTE: this literal 0.65em matches lib/blocks.typ's single-spaced leading.
+// If blocks.typ's value ever changes, update this constant to match.
 #let bib-leading = 0.65em
 // Gap between bibliography entries: one blank single-spaced line.
 // Calibrated empirically (Task 2, Step 5); ~2x the single leading.

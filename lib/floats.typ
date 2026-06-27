@@ -1,8 +1,19 @@
 #import "blocks.typ": single-spaced
 
-// The chapter counter key. Chapters are the level-1 heading counter; float
-// numbering reads its first level via chapter-counter.get().first().
-#let chapter-counter = counter(heading)
+// ── Matter-state contract ─────────────────────────────────────────────────────
+// floats-rules reads state("ucsd-matter", "main") — set by lib/pagination.typ's
+// front-matter() / main-matter() / back-matter() — to decide whether a level-1
+// heading is a real chapter (main matter) or a back/front matter heading that
+// must NOT receive "CHAPTER N" rendering and must NOT step/reset counters.
+// Valid values: "front" | "main" | "back".  Default "main" ensures standalone
+// test files (which do not call main-matter()) still render chapters correctly.
+// ─────────────────────────────────────────────────────────────────────────────
+
+// The chapter counter. A dedicated named counter so it is never stepped by
+// back-matter headings (appendices, bibliography) or front-matter headings.
+// Float numbering reads its first level via chapter-counter.get().first().
+// Exported as `chapter-counter` because existing tests reference it by name.
+#let chapter-counter = counter("ucsd-chapter")
 
 // Per-chapter float numbering: chapter.n with the chapter read at the float's
 // location. Evaluated in context when the caption displays, so .get() is valid.
@@ -22,6 +33,10 @@
     numbering: chapter-float-numbering,
   )
   if facing {
+    // Emit queryable metadata so P4's List-of-Figures can recover the caption
+    // text for facing floats (where the figure itself has caption: none).
+    // P4 should query <ucsd-facing-caption> and correlate by position/counter.
+    [#metadata((kind: kind, caption: caption)) <ucsd-facing-caption>]
     // Caption-only page, vertically & horizontally centered, single-spaced.
     {
       set align(center + horizon)
@@ -86,28 +101,44 @@
 
 // Applicable show bundle: #show: floats-rules
 #let floats-rules(body) = {
-  // REQUIRED: numbering "1" on level-1 headings so counter(heading) increments
-  // at each chapter boundary. The auto-rendered number is suppressed by the
-  // transformational show rule below, which renders "CHAPTER N" manually.
-  // Sub-headings intentionally have no numbering set here; the show rule below
-  // defensively applies `set heading(numbering: none)` for level ≥ 2.
-  show heading.where(level: 1): set heading(numbering: "1")
-
   // Headings.
+  //
+  // Level-1 (chapter) treatment is gated on state("ucsd-matter", "main").
+  // When in "main" matter: step chapter-counter, reset float counters, render
+  // the two-line "CHAPTER N / title" block.
+  // When in "front" or "back" matter (appendices, bibliography, etc.): render
+  // the heading plainly without any chapter/float counter mutations.
+  //
+  // NOTE: the old `show heading.where(level:1): set heading(numbering:"1")` rule
+  // has been removed. That rule unconditionally incremented counter(heading) for
+  // every level-1 heading including appendix and bibliography headings — that was
+  // the root cause of the cross-phase counter corruption bug.
+  // counter("ucsd-chapter") is now stepped ONLY in main matter, explicitly below.
   show heading: it => {
     if it.level == 1 {
-      // Reset every float counter at the start of each chapter.
-      counter(figure.where(kind: image)).update(0)
-      counter(figure.where(kind: table)).update(0)
-      counter(figure.where(kind: "scheme")).update(0)
-      counter(figure.where(kind: "graph")).update(0)
-      // Two-line centered CHAPTER N / title, no italics, single-spaced pair.
-      set align(center)
-      set text(style: "normal", weight: "bold")
-      single-spaced(block(width: 100%, breakable: false)[
-        CHAPTER #context counter(heading).display("1") \
-        #it.body
-      ])
+      context {
+        if state("ucsd-matter", "main").get() == "main" {
+          // Main matter: step dedicated chapter counter, reset float counters,
+          // render two-line centered "CHAPTER N / title".
+          chapter-counter.step()
+          counter(figure.where(kind: image)).update(0)
+          counter(figure.where(kind: table)).update(0)
+          counter(figure.where(kind: "scheme")).update(0)
+          counter(figure.where(kind: "graph")).update(0)
+          // Two-line centered CHAPTER N / title, no italics, single-spaced pair.
+          // chapter-counter was just stepped; a nested context reads the new value.
+          set align(center)
+          set text(style: "normal", weight: "bold")
+          single-spaced(block(width: 100%, breakable: false)[
+            CHAPTER #context chapter-counter.display("1") \
+            #it.body
+          ])
+        } else {
+          // Front/back matter (appendix, bibliography, etc.): plain render —
+          // no "CHAPTER" text, no chapter-counter step, no float-counter reset.
+          it
+        }
+      }
     } else {
       // Sections/subsections: defensive guard — guarantee unnumbered even if an
       // outer/global rule ever sets heading numbering for these levels.
