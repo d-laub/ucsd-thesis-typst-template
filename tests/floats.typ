@@ -53,3 +53,10 @@ Body text under chapter two.
   caption: [A facing-caption figure; its caption is on the preceding page.],
   facing: true,
 )
+
+= Discussion
+#graph(
+  rect(width: 14cm, height: 7cm),
+  caption: [A wide landscape graph rotated 90 degrees.],
+  landscape: true,
+)
