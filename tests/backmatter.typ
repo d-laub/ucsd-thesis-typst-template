@@ -18,4 +18,9 @@ work. @taocp2020 @wc1953
   A second appendix, lettered B automatically by the appendix counter.
 ]
 
+#context assert(
+  counter("p5-appendix").get().first() == 2,
+  message: "expected exactly two appendices (A, B)",
+)
+
 #bibliography("../references.bib", style: "../styles/ieee-full-authors.csl")
