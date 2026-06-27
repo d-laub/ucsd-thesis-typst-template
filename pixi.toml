@@ -8,5 +8,5 @@ typst = ">=0.13"
 
 [tasks]
 build = "typst compile --font-path fonts --root . tests/smoke.typ build/smoke.pdf"
-calibrate = "typst query --font-path fonts tests/calibration.typ '<calib>' --field value --one --pretty"
+calibrate = "typst query --font-path fonts --root . tests/calibration.typ '<calib>' --field value --one --pretty"
 fonts = "typst fonts --font-path fonts"
