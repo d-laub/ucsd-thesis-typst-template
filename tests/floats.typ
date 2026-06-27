@@ -42,3 +42,14 @@ Body text under chapter two.
   chapter-counter.get().first(), 2,
   message: "chapter counter should be 2 after two chapters",
 )
+
+// Fill enough space so the facing caption page and float page are distinct.
+#pagebreak()
+
+= Results
+// The facing float: caption on the page immediately before the float.
+#fig(
+  rect(width: 4cm, height: 3cm),
+  caption: [A facing-caption figure; its caption is on the preceding page.],
+  facing: true,
+)
