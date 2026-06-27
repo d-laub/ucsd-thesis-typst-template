@@ -22,3 +22,16 @@
   show bibliography: set par(leading: bib-leading, spacing: bib-entry-gap)
   body
 }
+
+// Auto-lettered appendices (A, B, C, ...). Dedicated counter — does not collide
+// with the page counter (P1) or chapter counter (P3).
+#let appendix-counter = counter("p5-appendix")
+
+#let appendix(title, body) = {
+  appendix-counter.step()
+  context {
+    let letter = numbering("A", appendix-counter.get().first())
+    heading(level: 1)[APPENDIX #letter: #title]
+  }
+  single-spaced(body)
+}
