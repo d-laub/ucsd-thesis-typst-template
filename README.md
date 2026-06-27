@@ -21,6 +21,6 @@ and used via `--font-path fonts`. No font substitution was needed.
 
 Body text is double-spaced as clean typographic 2.0×: the line leading is the
 native single advance plus one native leading, calibrated via `pixi run calibrate`.
-Recorded value: `body-leading = 2.029em` (≈ 2.029em for TeX Gyre Heros 12pt).
+Recorded value: `body-leading = 2.029em` (TeX Gyre Heros, 12pt; native single advance 16.55pt, ratio 2.0×).
 Single-spacing carve-outs (footnotes, long quotes, and later captions/bibliography)
 use Typst's native single leading (0.65em).

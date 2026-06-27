@@ -18,7 +18,7 @@
   let current = advance(body-leading)
   [
     #metadata((
-      native-single-pt: repr(single),
+      native-single-pt: single.pt(),
       recommended-double-em: double_pt / 12.0, // unitless em count at 12pt
       current-ratio: current.pt() / single.pt(),
     )) <calib>
