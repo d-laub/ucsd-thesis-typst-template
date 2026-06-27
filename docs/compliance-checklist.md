@@ -6,21 +6,21 @@ row is verified by the phase noted in brackets. Page numbers refer to the manual
 
 ## General specifications (§II, pp. 9–11)
 
-- [ ] Highly legible typeface, dark enough to reproduce, readable on microfilm [P0]
-- [ ] Margins: top/bottom/left/right all ≥ 1″ from the paper edge [P0]
+- [x] Highly legible typeface, dark enough to reproduce, readable on microfilm [P0]
+- [x] Margins: top/bottom/left/right all ≥ 1″ from the paper edge [P0]
 - [ ] Nothing intrudes into margins except page numbers [P0, P1]
-- [ ] Body font size ≥ 10pt (default 12pt); one of Arial, Century Gothic, Helvetica,
+- [x] Body font size ≥ 10pt (default 12pt); one of Arial, Century Gothic, Helvetica,
       Times New Roman → using Helvetica/Arial metric clone (TeX Gyre Heros) [P0]
-- [ ] Footnotes and captions font size ≥ 10pt [P0]
-- [ ] One consistent font throughout the entire manuscript [P0]
-- [ ] All text black (including web links); no colored text [P0]
-- [ ] Italics allowed for emphasis (single word/phrase); not for headings (non-MLA) [P0]
+- [x] Footnotes and captions font size ≥ 10pt [P0]
+- [x] One consistent font throughout the entire manuscript [P0]
+- [x] All text black (including web links); no colored text [P0]
+- [x] Italics allowed for emphasis (single word/phrase); not for headings (non-MLA) [P0]
 - [ ] Page numbers centered at bottom, 0.5″ from the bottom edge [P1]
-- [ ] Body text double-spaced [P0]
-- [ ] First line of each paragraph indented one 0.5″ tab; block style not allowed [P0]
-- [ ] Long quotations (> 6 lines): single-spaced, indented additional 0.5″ on BOTH
+- [x] Body text double-spaced [P0]
+- [x] First line of each paragraph indented one 0.5″ tab; block style not allowed [P0]
+- [x] Long quotations (> 6 lines): single-spaced, indented additional 0.5″ on BOTH
       left and right, no quotation marks [P0/P3]
-- [ ] Captions may be single-spaced [P0/P3]
+- [x] Captions may be single-spaced [P0/P3]
 - [ ] Survey instruments / reproduced research materials in appendix may be single-spaced [P5]
 - [ ] Vita may be single-spaced [P2]
 
