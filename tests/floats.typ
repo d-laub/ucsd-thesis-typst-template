@@ -1,4 +1,4 @@
-#import "../lib/floats.typ": floats-rules, chapter-counter
+#import "../lib/floats.typ": floats-rules, chapter-counter, fig, tbl, scheme, graph
 
 #show: floats-rules
 
@@ -6,6 +6,11 @@
 == A section
 === A subsection
 Body text under chapter one.
+
+#fig(rect(width: 3cm, height: 2cm), caption: [A figure; caption below.])
+#tbl(table(columns: 2, [a], [b], [c], [d]), caption: [A table; caption above.])
+#scheme(rect(width: 3cm, height: 2cm), caption: [A scheme; caption below.])
+#graph(rect(width: 3cm, height: 2cm), caption: [A graph; caption above.])
 
 = Methods
 Body text under chapter two.
