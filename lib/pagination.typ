@@ -13,8 +13,14 @@
 
 // Main matter: restart the page counter at Arabic 1, same centered footer.
 // This `set page` overrides front-matter's from here to the end of the document.
-// NOTE: `set page` must come before `counter(page).update` in the function body;
-// reversing the order causes the numbering change to shadow the explicit update.
+//
+// ORDERING NOTE: `set page` MUST come before `counter(page).update(1)`.
+// In Typst 0.15, a `set page` that changes the `numbering` parameter triggers a
+// new page-layout context. If the counter update were placed first, the subsequent
+// `set page` event would clobber it (resetting the counter to its default start
+// value of 2 for the second logical page), yielding page 2 instead of 1. By
+// placing `set page` first, the new context is established before the explicit
+// update, so the counter correctly reads 1 on the first body page.
 #let main-matter() = {
   set page(numbering: "1", footer: _footer, footer-descent: 0.5in)
   counter(page).update(1)

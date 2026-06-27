@@ -22,7 +22,7 @@
       <text variable="citation-number"/>
     </layout>
   </citation>
-  <bibliography et-al-min="99" et-al-use-first="99" second-field-align="flush">
+  <bibliography second-field-align="flush">
     <layout>
       <text variable="citation-number" prefix="[" suffix="] "/>
       <text macro="author" suffix=", "/>

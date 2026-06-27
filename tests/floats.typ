@@ -7,6 +7,19 @@
 === A subsection
 Body text under chapter one.
 
+// Fix 1 guard: level-2 headings must have no numbering even if a global rule
+// were to set one. Query the first level-2 heading and assert its .numbering
+// field is none. (If numbering were applied, h.numbering would be a non-none
+// string/function and this assert would fail.)
+#context {
+  let h2s = query(heading.where(level: 2))
+  assert(h2s.len() > 0, message: "expected at least one level-2 heading to check")
+  assert(
+    h2s.at(0).numbering == none,
+    message: "level-2 heading must have no numbering; got: " + repr(h2s.at(0).numbering),
+  )
+}
+
 // --- Per-chapter numbering assertions (Task 3): chapter one figures ---
 #fig(rect(width: 2cm, height: 1cm), caption: [First figure of chapter one.])
 #context assert.eq(

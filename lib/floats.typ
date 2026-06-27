@@ -86,9 +86,11 @@
 
 // Applicable show bundle: #show: floats-rules
 #let floats-rules(body) = {
-  // Enable numbering on level-1 headings only so counter(heading) increments
-  // at each chapter. Sub-headings stay unnumbered.
-  // The display is suppressed by the show rule below (we render "CHAPTER N" ourselves).
+  // REQUIRED: numbering "1" on level-1 headings so counter(heading) increments
+  // at each chapter boundary. The auto-rendered number is suppressed by the
+  // transformational show rule below, which renders "CHAPTER N" manually.
+  // Sub-headings intentionally have no numbering set here; the show rule below
+  // defensively applies `set heading(numbering: none)` for level ≥ 2.
   show heading.where(level: 1): set heading(numbering: "1")
 
   // Headings.
@@ -107,7 +109,9 @@
         #it.body
       ])
     } else {
-      // Sections/subsections: unnumbered display heading, no italics.
+      // Sections/subsections: defensive guard — guarantee unnumbered even if an
+      // outer/global rule ever sets heading numbering for these levels.
+      set heading(numbering: none)
       set text(style: "normal")
       it
     }

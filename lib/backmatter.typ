@@ -9,7 +9,7 @@
 // `#appendix(title, body)` helper; it does NOT modify `dissertation()`.
 // ============================================================================
 
-#import "../lib/blocks.typ": single-spaced
+#import "blocks.typ": single-spaced
 
 // Single line leading within a bibliography entry (Typst native single).
 #let bib-leading = 0.65em
