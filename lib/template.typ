@@ -1,5 +1,7 @@
-// Body line leading. Native single here; recalibrated to 2.0x in Task 3.
-#let body-leading = 0.65em
+// Body line leading, calibrated to 2.0x the native single advance (Task 3).
+// = native-single-advance + 0.65em, expressed in em (size-independent).
+// Measured: native single = 16.55pt, recommended-double-em = 2.029 at 12pt.
+#let body-leading = 2.029em
 
 #let dissertation(
   title: none,
