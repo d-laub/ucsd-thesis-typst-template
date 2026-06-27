@@ -5,22 +5,43 @@
 
 #front-matter()
 
+// Title page (logical i) and copyright page (logical ii): counted, number
+// suppressed. The page counter must still advance, so the approval page lands
+// on iii. (P2 supplies the real title/copyright pages the same way.)
+#[
+  #set page(numbering: none)
+  #context {
+    let n = counter(page).get().first()
+    assert(n == 1, message: "title page should count 1, got " + str(n))
+    [Title page (no number) #metadata(n) <p-title>]
+  }
+  #pagebreak()
+  #context {
+    let n = counter(page).get().first()
+    assert(n == 2, message: "copyright page should count 2, got " + str(n))
+    [Copyright page (no number) #metadata(n) <p-copyright>]
+  }
+]
+#pagebreak()
+
+// Approval page — first DISPLAYED number, iii.
 #context {
   let n = counter(page).get().first()
-  assert(n == 1, message: "first prelim page should count 1, got " + str(n))
-  [Prelim page #metadata(n) <p-1>]
+  assert(n == 3, message: "approval page should display iii (count 3), got " + str(n))
+  [Approval page #metadata(n) <p-approval>]
+}
+#pagebreak()
+
+// Two more preliminary pages — iv, v.
+#context {
+  let n = counter(page).get().first()
+  assert(n == 4, message: "prelim page should count 4, got " + str(n))
+  [Prelim page #metadata(n) <p-iv>]
 }
 #pagebreak()
 
 #context {
   let n = counter(page).get().first()
-  assert(n == 2, message: "second prelim page should count 2, got " + str(n))
-  [Prelim page #metadata(n) <p-2>]
-}
-#pagebreak()
-
-#context {
-  let n = counter(page).get().first()
-  assert(n == 3, message: "third prelim page should count 3, got " + str(n))
-  [Prelim page #metadata(n) <p-3>]
+  assert(n == 5, message: "prelim page should count 5, got " + str(n))
+  [Prelim page #metadata(n) <p-v>]
 }
