@@ -5,11 +5,11 @@
 
 #front-matter()
 
-// Title page (logical i) and copyright page (logical ii): counted, number
+// Title page (logical i) and copyright page (logical ii): counted, footer
 // suppressed. The page counter must still advance, so the approval page lands
 // on iii. (P2 supplies the real title/copyright pages the same way.)
 #[
-  #set page(numbering: none)
+  #set page(footer: none)
   #context {
     let n = counter(page).get().first()
     assert(n == 1, message: "title page should count 1, got " + str(n))
@@ -71,3 +71,13 @@
   assert(n == 3, message: "back-matter page should continue at 3 (no reset), got " + str(n))
   [Back matter page #metadata(n) <p-back-1>]
 }
+
+// ── Rendered-footer contract (verified by pdftotext sweep on build/pagination.pdf)
+// Page 1 (title):     NO footer numeral  (set page(footer: none) suppresses it)
+// Page 2 (copyright): NO footer numeral  (set page(footer: none) suppresses it)
+// Page 3 (approval):  "iii"  — roman, state="front"
+// Page 4 (prelim iv): "iv"   — roman, state="front"
+// Page 5 (prelim v):  "v"    — roman, state="front"
+// Page 6 (body 1):    "1"    — arabic, state="main", counter reset to 1
+// Page 7 (body 2):    "2"    — arabic, state="main"
+// Page 8 (back 1):    "3"    — arabic, state="back" (falls into else branch)

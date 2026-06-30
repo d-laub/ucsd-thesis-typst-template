@@ -8,6 +8,8 @@
 
 **Tech Stack:** Typst (≥0.15,<0.16, pinned in `pixi.toml`), pixi, TeX Gyre Heros (vendored OTFs under `fonts/`); P0's `dissertation` show-wrapper from `lib/template.typ`, P1's `front-matter`/`main-matter` markers from `lib/pagination.typ`, and the `single-spaced` primitive from `lib/blocks.typ`.
 
+> **Implementation note (post-hoc):** during execution, a latent P1 bug was found — `front-matter()`/`main-matter()` configured the page footer + roman/arabic numbering via `set page(…)` *inside* the function body, which does not propagate in Typst, so the document had **no page-number footer anywhere**. With user authorization, the "New files only" constraint below was relaxed for a root-cause fix (commit `47c4955`): a state-driven footer was moved into `dissertation()` (`lib/template.typ`), `front-matter()`/`main-matter()` were simplified (`lib/pagination.typ`), and the counted-but-unnumbered pages switched to `page(footer: none)`. The "do not edit `lib/template.typ`/`lib/pagination.typ`" and "`dissertation()` untouched" statements in the Global Constraints and Self-Review below are therefore **superseded by that authorized fix**.
+
 ## Global Constraints
 
 - **Metadata is a plain dict**, defined once and passed to the builders that need it. Shape (used verbatim throughout this plan):
