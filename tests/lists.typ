@@ -41,6 +41,8 @@
 #main-matter()
 = Introduction
 == A section
+=== A subsection
+==== A deep heading that must not appear in the TOC
 #fig(
   rect(width: 2cm, height: 1cm),
   caption: [A deliberately long figure caption that would exceed four lines in the list and therefore needs a short form.],
@@ -71,6 +73,13 @@
   assert(main-chapters.len() == 2, message: "expected 2 main chapters; got " + str(main-chapters.len()))
   let back-h1 = hs.filter(h => h.level == 1 and state("ucsd-matter").at(h.location()) == "back")
   assert(back-h1.any(h => h.body == [References]), message: "References must be a back-matter heading")
+  // Depth-3 truncation guard: a level-4 heading must exist in the doc (proves
+  // the > 3 skip has input to exercise) and a level-3 heading must exist at the
+  // included boundary. The builder emits no per-entry metadata so we can only
+  // assert the guard's inputs, not its rendered output directly.
+  let level4 = hs.filter(h => h.level == 4)
+  assert(level4.len() == 1, message: "exactly 1 level-4 heading must exist for depth-3 guard coverage; got " + str(level4.len()))
+  assert(hs.filter(h => h.level == 3).any(h => h.body == [A subsection]), message: "level-3 heading [A subsection] must exist at depth included by the TOC guard")
 }
 
 // ── List-of-float assertions ──
@@ -94,6 +103,13 @@
     counter(figure.where(kind: image)).at(m0.location()).first(),
   )
   assert(num0 == "1.1", message: "first figure list number should be 1.1; got " + num0)
+  let m1 = imgs.at(1)
+  let num1 = numbering(
+    "1.1",
+    counter("ucsd-chapter").at(m1.location()).first(),
+    counter(figure.where(kind: image)).at(m1.location()).first(),
+  )
+  assert(num1 == "2.1", message: "facing figure list number should be 2.1; got " + num1)
 }
 
 // ── Author-supplied list assertions ──

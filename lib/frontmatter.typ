@@ -13,7 +13,9 @@
 
 #import "blocks.typ": single-spaced
 
-// ── Internal helpers (not part of the public API) ────────────────────────────
+// ── Helpers ──────────────────────────────────────────────────────────────────
+// (_-prefixed functions are private; prelim-heading and register-toc are public
+// API consumed by lib/lists.typ.)
 
 // Centered, regular-weight, all-caps section heading at the body size (12pt).
 // NOT a `heading` element: floats-rules (P3) renders front-matter level-1
