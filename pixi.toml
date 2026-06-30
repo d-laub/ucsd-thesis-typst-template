@@ -8,5 +8,7 @@ typst = ">=0.15,<0.16"
 
 [tasks]
 build = "mkdir -p build && typst compile --font-path fonts --root . tests/smoke.typ build/smoke.pdf"
+example = "mkdir -p build && typst compile --font-path fonts --root . examples/thesis.typ build/example.pdf"
+thesis = "mkdir -p build && typst compile --font-path fonts --root . thesis.typ build/thesis.pdf"
 calibrate = "typst eval --font-path fonts --root . --in tests/calibration.typ --pretty 'query(<calib>).first().value'"
 fonts = "typst fonts --font-path fonts"
