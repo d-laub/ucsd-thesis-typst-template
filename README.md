@@ -6,6 +6,8 @@ adapted from the 2025–2026 Preparation and Submission Manual.
 ## Build
 
     pixi run build        # compiles tests/smoke.typ -> build/smoke.pdf
+    pixi run example      # compiles the generic feature-demo -> build/example.pdf
+    pixi run thesis       # compiles your thesis.typ -> build/thesis.pdf
     pixi run calibrate    # prints the line-spacing calibration metadata
     pixi run fonts        # lists fonts discoverable under fonts/
 
