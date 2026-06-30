@@ -21,7 +21,7 @@ row is verified by the phase noted in brackets. Page numbers refer to the manual
 - [x] Long quotations (> 6 lines): single-spaced, indented additional 0.5″ on BOTH
       left and right, no quotation marks [P0/P3]
 - [x] Captions may be single-spaced [P0/P3]
-- [ ] Survey instruments / reproduced research materials in appendix may be single-spaced [P5]
+- [x] Survey instruments / reproduced research materials in appendix may be single-spaced [P5] — `#appendix` wraps its body in `single-spaced`; verified in tests/backmatter.typ (appendix body renders single-spaced, distinct from the double-spaced body)
 - [x] Vita may be single-spaced [P2]
 
 ## Pagination (§II p. 10, §III p. 12)
@@ -135,10 +135,10 @@ Order, with required/optional status:
 - [x] Reference-matter order: Appendices → Addenda → Chronology → Endnotes → Glossary
       → Bibliography/References/Works Cited [P5]
 - [x] Appendices may be single-spaced [P5]
-- [ ] Bibliography single-spaced with a double space between entries [P5]
+- [x] Bibliography single-spaced with a double space between entries [P5] — `backmatter-rules` sets `par(leading: 0.65em, spacing: 1.3em)` on `bibliography`; layout dump confirms single-spaced wrapped lines within an entry and one blank line between entries
 - [x] Bibliography is the last entry in each chapter or in the manuscript [P5]
-- [ ] Non-primary authors not depersonalized as "et al." in the bibliography [P5]
-- [ ] Consistent citation/reference style throughout [P5]
+- [x] Non-primary authors not depersonalized as "et al." in the bibliography [P5] — custom `styles/ieee-full-authors.csl` sets `et-al-min="99" et-al-use-first="99"`; the 8-author `octuple2023` entry prints all authors (last author "Davis" present, `grep -c "et al" == 0`)
+- [x] Consistent citation/reference style throughout [P5] — a single numeric CSL drives both in-text `[n]` citations and the bibliography (verified: `[1]`–`[3]` in body, numbered reference list)
 
 ## Acknowledgements — co-authored/published material (§III p. 28, sample p. 29)
 
