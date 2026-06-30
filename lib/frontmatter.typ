@@ -54,20 +54,20 @@
   #set par(first-line-indent: 0pt)
   #set align(center)
   #_prelim-heading("University of California San Diego")
-  #v(0.5in)
+  #v(0.25in)
   #meta.title
-  #v(0.6in)
+  #v(0.3in)
   A dissertation submitted in partial satisfaction of the \
   requirements for the degree #meta.degree
-  #v(1.0in)
+  #v(0.5in)
   in
-  #v(0.6in)
+  #v(0.3in)
   #meta.degree-field
-  #v(0.7in)
+  #v(0.35in)
   by
-  #v(0.6in)
+  #v(0.3in)
   #meta.author
-  #v(0.8in)
+  #v(0.4in)
   #_committee-block(meta.committee)
   #v(1fr)
   #meta.year

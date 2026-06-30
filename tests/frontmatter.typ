@@ -21,3 +21,4 @@
 
 #title-page(meta)
 #copyright-page(meta)
+#context assert(counter(page).get().first() == 2, message: "title (i) + copyright (ii) must occupy exactly 2 counted pages; got " + str(counter(page).get().first()))
