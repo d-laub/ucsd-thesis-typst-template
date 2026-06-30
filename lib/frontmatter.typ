@@ -130,3 +130,30 @@
   ])
   v(2fr)
 }
+
+// Vita (required, doctoral). Sample p.31. Year-column entries as a 2-col grid
+// (single-spaced); optional PUBLICATIONS / FIELDS OF STUDY sections. Author uses
+// "Master" not "Masters" in degree titles (manual note).
+#let vita(entries: (), publications: none, fields: none) = {
+  pagebreak(weak: true)
+  _prelim-heading("Vita")
+  v(2em)
+  single-spaced(grid(
+    columns: (auto, 1fr),
+    column-gutter: 0.5in,
+    row-gutter: 1em,
+    ..entries.map(e => (e.year, e.body)).flatten(),
+  ))
+  if publications != none {
+    v(2em)
+    _prelim-heading("Publications")
+    v(1em)
+    single-spaced(publications)
+  }
+  if fields != none {
+    v(2em)
+    _prelim-heading("Fields of Study")
+    v(1em)
+    single-spaced(fields)
+  }
+}

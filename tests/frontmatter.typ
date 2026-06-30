@@ -1,6 +1,6 @@
 #import "../lib/template.typ": dissertation
 #import "../lib/pagination.typ": front-matter, main-matter
-#import "../lib/frontmatter.typ": title-page, copyright-page, approval-page, dedication, epigraph, preface, acknowledgements
+#import "../lib/frontmatter.typ": title-page, copyright-page, approval-page, dedication, epigraph, preface, acknowledgements, vita
 
 #let meta = (
   title: "This Is the Title of My Dissertation",
@@ -65,3 +65,20 @@
     [#metadata(n) <p-ack>]
   }
 ]
+#vita(
+  entries: (
+    (year: "2019", body: "Bachelor of Science, University of Somewhere"),
+    (year: "2025", body: "Doctor of Philosophy, University of California San Diego"),
+  ),
+  publications: [
+    A. Lovelace, "On the Analytical Engine," 1843.
+    #context {
+      let n = counter(page).get().first()
+      assert(n == 8, message: "vita should be page 8 (viii), got " + str(n))
+      [#metadata(n) <p-vita>]
+    }
+  ],
+  fields: [
+    Major Field: Computing
+  ],
+)
