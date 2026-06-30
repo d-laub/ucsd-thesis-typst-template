@@ -94,6 +94,21 @@
 // Empty counted page for the declined-copyright case (page ii, no footer).
 #let blank-page() = page(footer: none)[]
 
+// Generic single-section preliminary page: a centered heading then the body.
+// Body inherits P0's double-spaced, 0.5in-first-line-indent defaults (required
+// for acknowledgements; harmless for the "any format" dedication/epigraph).
+#let _section-page(title, body) = {
+  pagebreak(weak: true)
+  _prelim-heading(title)
+  v(2em)
+  body
+}
+
+#let dedication(body) = _section-page("Dedication", body)
+#let epigraph(body) = _section-page("Epigraph", body)
+#let preface(body) = _section-page("Preface", body)
+#let acknowledgements(body) = _section-page("Acknowledgements", body)
+
 // Approval page — first DISPLAYED roman number (iii). No section heading. The
 // approval statement is left-justified at the top; the university + year are
 // centered below; the whole block is centered vertically. No signature lines

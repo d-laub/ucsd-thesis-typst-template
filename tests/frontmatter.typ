@@ -1,6 +1,6 @@
 #import "../lib/template.typ": dissertation
 #import "../lib/pagination.typ": front-matter, main-matter
-#import "../lib/frontmatter.typ": title-page, copyright-page, approval-page
+#import "../lib/frontmatter.typ": title-page, copyright-page, approval-page, dedication, epigraph, preface, acknowledgements
 
 #let meta = (
   title: "This Is the Title of My Dissertation",
@@ -32,3 +32,36 @@
     + str(counter(page).at(<ucsd-copyright-page-end>).first()),
 )
 #approval-page(meta)
+
+#dedication[
+  This dissertation is dedicated to curiosity.
+  #context {
+    let n = counter(page).get().first()
+    assert(n == 4, message: "dedication should be page 4 (iv), got " + str(n))
+    [#metadata(n) <p-ded>]
+  }
+]
+#epigraph[
+  "Begin at the beginning." \ — The King
+  #context {
+    let n = counter(page).get().first()
+    assert(n == 5, message: "epigraph should be page 5 (v), got " + str(n))
+    [#metadata(n) <p-epi>]
+  }
+]
+#preface[
+  This is the preface.
+  #context {
+    let n = counter(page).get().first()
+    assert(n == 6, message: "preface should be page 6 (vi), got " + str(n))
+    [#metadata(n) <p-pre>]
+  }
+]
+#acknowledgements[
+  I thank my committee for their guidance.
+  #context {
+    let n = counter(page).get().first()
+    assert(n == 7, message: "acknowledgements should be page 7 (vii), got " + str(n))
+    [#metadata(n) <p-ack>]
+  }
+]
