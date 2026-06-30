@@ -1,4 +1,6 @@
 build/
 *.pdf
+# Committed rendered output (regenerate with `pixi run example`)
+!examples/example.pdf
 .pixi/
 skills-lock.json
