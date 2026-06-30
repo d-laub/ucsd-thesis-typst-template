@@ -75,6 +75,8 @@
 // ── Main matter ─────────────────────────────────────────────────────────────
 #main-matter()
 #include "chapters/01-introduction.typ"
+#include "chapters/02-methods.typ"
+#include "chapters/03-results.typ"
 
 // ── Back matter ─────────────────────────────────────────────────────────────
 #back-matter()
