@@ -13,16 +13,25 @@
 
 #import "blocks.typ": single-spaced
 
-// ── Internal helpers (not part of the public API) ────────────────────────────
+// ── Helpers ──────────────────────────────────────────────────────────────────
+// (_-prefixed functions are private; prelim-heading and register-toc are public
+// API consumed by lib/lists.typ.)
 
 // Centered, regular-weight, all-caps section heading at the body size (12pt).
 // NOT a `heading` element: floats-rules (P3) renders front-matter level-1
 // headings plainly (default bold/left), which would fight this styling.  The
 // title-page top line and the abstract heading both use this, so they match.
-#let _prelim-heading(title) = {
+#let prelim-heading(title) = {
   set par(first-line-indent: 0pt)
   align(center, text(weight: "regular", style: "normal", upper(title)))
 }
+
+// <ucsd-toc-entry> contract: front-matter pages that appear in the TABLE OF
+// CONTENTS emit this metadata carrying their Title-Case title (distinct from the
+// all-caps page heading). lib/lists.typ queries it cross-module by label — no
+// import, exactly like the state("ucsd-matter") contract. Title page & copyright
+// page deliberately register nothing (they are counted i/ii but never listed).
+#let register-toc(title) = [#metadata((title: title)) <ucsd-toc-entry>]
 
 // "Professor <name>".
 #let _professor(name) = [Professor #name]
@@ -53,7 +62,7 @@
 #let title-page(meta) = page(footer: none)[
   #set par(first-line-indent: 0pt)
   #set align(center)
-  #_prelim-heading("University of California San Diego")
+  #prelim-heading("University of California San Diego")
   #v(0.25in)
   #meta.title
   #v(0.3in)
@@ -99,7 +108,8 @@
 // for acknowledgements; harmless for the "any format" dedication/epigraph).
 #let _section-page(title, body) = {
   pagebreak(weak: true)
-  _prelim-heading(title)
+  register-toc(title)
+  prelim-heading(title)
   v(2em)
   body
 }
@@ -117,6 +127,7 @@
 // Plain flow page — inherits the state-driven roman footer from dissertation().
 #let approval-page(meta) = {
   pagebreak(weak: true)
+  register-toc("Dissertation/Thesis Approval Page")
   set par(first-line-indent: 0pt)
   v(1fr)
   align(left)[
@@ -149,8 +160,9 @@
 // double-spaced 0.5in-indent defaults.
 #let abstract(meta, body) = {
   pagebreak(weak: true)
+  register-toc("Abstract of the Dissertation")
   v(1.5in) // 1in margin + 1.5in = 2.5in top margin on the abstract's first page
-  _prelim-heading("Abstract of the Dissertation")
+  prelim-heading("Abstract of the Dissertation")
   {
     set par(first-line-indent: 0pt)
     align(center)[
@@ -177,7 +189,8 @@
 // "Master" not "Masters" in degree titles (manual note).
 #let vita(entries: (), publications: none, fields: none) = {
   pagebreak(weak: true)
-  _prelim-heading("Vita")
+  register-toc("Vita")
+  prelim-heading("Vita")
   v(2em)
   single-spaced(grid(
     columns: (auto, 1fr),
@@ -187,13 +200,13 @@
   ))
   if publications != none {
     v(2em)
-    _prelim-heading("Publications")
+    prelim-heading("Publications")
     v(1em)
     single-spaced(publications)
   }
   if fields != none {
     v(2em)
-    _prelim-heading("Fields of Study")
+    prelim-heading("Fields of Study")
     v(1em)
     single-spaced(fields)
   }

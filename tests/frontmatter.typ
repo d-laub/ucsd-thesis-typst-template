@@ -98,3 +98,26 @@
   assert(n == 1, message: "first body page should restart at 1, got " + str(n))
   [Body text. #metadata(n) <p-body>]
 }
+
+// P4 prep: front-matter pages register <ucsd-toc-entry> markers (Title-Case),
+// with their roman page numbers. Title page & copyright register nothing.
+#context {
+  let titles = query(<ucsd-toc-entry>).map(e => e.value.title)
+  let expected = (
+    "Dissertation/Thesis Approval Page", "Dedication", "Epigraph", "Preface",
+    "Acknowledgements", "Vita", "Abstract of the Dissertation",
+  )
+  for t in expected {
+    assert(t in titles, message: "missing TOC entry: " + t + "; got " + repr(titles))
+  }
+  assert(
+    titles.len() == expected.len(),
+    message: "unexpected TOC entries (title/copyright must not register); got " + repr(titles),
+  )
+  // The approval page registers on the iii page.
+  let approval = query(<ucsd-toc-entry>).find(e => e.value.title == "Dissertation/Thesis Approval Page")
+  assert(
+    numbering("i", ..counter(page).at(approval.location())) == "iii",
+    message: "approval TOC entry must read iii",
+  )
+}

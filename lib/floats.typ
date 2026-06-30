@@ -23,8 +23,21 @@
   n,
 )
 
-// Internal constructor for all float kinds. facing/landscape wired in later tasks.
-#let _float(body, caption: none, kind: none, supplement: none, facing: false, landscape: false) = {
+// Internal constructor for all float kinds.
+#let _float(
+  body,
+  caption: none,
+  short: none,
+  kind: none,
+  supplement: none,
+  facing: false,
+  landscape: false,
+) = {
+  // The List-of caption: the short form when the author supplied one, else the
+  // full caption. P4's lib/lists.typ queries <ucsd-float-entry> and computes the
+  // number/page from counters at the marker's own location.
+  let list-caption = if short != none { short } else { caption }
+  let entry = [#metadata((kind: kind, caption: list-caption)) <ucsd-float-entry>]
   let make = cap => figure(
     body,
     caption: cap,
@@ -33,10 +46,6 @@
     numbering: chapter-float-numbering,
   )
   if facing {
-    // Emit queryable metadata so P4's List-of-Figures can recover the caption
-    // text for facing floats (where the figure itself has caption: none).
-    // P4 should query <ucsd-facing-caption> and correlate by position/counter.
-    [#metadata((kind: kind, caption: caption)) <ucsd-facing-caption>]
     // Caption-only page, vertically & horizontally centered, single-spaced.
     {
       set align(center + horizon)
@@ -51,52 +60,36 @@
       ]
     }
     pagebreak()
-    // The float itself on the next page, no caption (shown on facing page),
-    // still a real numbered figure for P4's List-of queries.
+    // The float on the next page, no caption (shown on the facing page), still a
+    // real numbered figure. Emit the unified entry AFTER it so the counters at
+    // the marker location reflect this figure.
     let f = make(none)
     if landscape { rotate(-90deg, reflow: true, f) } else { f }
+    entry
   } else {
     let f = make(caption)
     // -90deg => top edge along the LEFT margin (verified empirically).
     if landscape { rotate(-90deg, reflow: true, f) } else { f }
+    entry
   }
 }
 
 // Public float constructors.
-#let fig(body, caption: none, facing: false, landscape: false) = _float(
-  body,
-  caption: caption,
-  kind: image,
-  supplement: [Figure],
-  facing: facing,
-  landscape: landscape,
+#let fig(body, caption: none, short: none, facing: false, landscape: false) = _float(
+  body, caption: caption, short: short, kind: image, supplement: [Figure],
+  facing: facing, landscape: landscape,
 )
-
-#let tbl(body, caption: none, facing: false, landscape: false) = _float(
-  body,
-  caption: caption,
-  kind: table,
-  supplement: [Table],
-  facing: facing,
-  landscape: landscape,
+#let tbl(body, caption: none, short: none, facing: false, landscape: false) = _float(
+  body, caption: caption, short: short, kind: table, supplement: [Table],
+  facing: facing, landscape: landscape,
 )
-
-#let scheme(body, caption: none, facing: false, landscape: false) = _float(
-  body,
-  caption: caption,
-  kind: "scheme",
-  supplement: [Scheme],
-  facing: facing,
-  landscape: landscape,
+#let scheme(body, caption: none, short: none, facing: false, landscape: false) = _float(
+  body, caption: caption, short: short, kind: "scheme", supplement: [Scheme],
+  facing: facing, landscape: landscape,
 )
-
-#let graph(body, caption: none, facing: false, landscape: false) = _float(
-  body,
-  caption: caption,
-  kind: "graph",
-  supplement: [Graph],
-  facing: facing,
-  landscape: landscape,
+#let graph(body, caption: none, short: none, facing: false, landscape: false) = _float(
+  body, caption: caption, short: short, kind: "graph", supplement: [Graph],
+  facing: facing, landscape: landscape,
 )
 
 // Applicable show bundle: #show: floats-rules
