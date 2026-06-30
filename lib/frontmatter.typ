@@ -76,6 +76,8 @@
 // Copyright page — counted ii, number NOT displayed. Centered just above the
 // bottom margin. Sample p.17. Optional notice; if declined, use blank-page()
 // instead (page ii must still exist — manual p.16).
+// <ucsd-copyright-page-end> anchors the page-ii counter check in tests without
+// depending on the floating position of a #context block in the main flow.
 #let copyright-page(meta) = page(numbering: none)[
   #set par(first-line-indent: 0pt)
   #set align(center)
@@ -86,7 +88,39 @@
     #meta.author, #meta.year \
     All rights reserved.
   ]
+  #[] <ucsd-copyright-page-end>
 ]
 
 // Empty counted page for the declined-copyright case (page ii, no number).
 #let blank-page() = page(numbering: none)[]
+
+// Approval page — first DISPLAYED roman number (iii). No section heading. The
+// approval statement is left-justified at the top; the university + year are
+// centered below; the whole block is centered vertically. No signature lines
+// (non-joint — signatures are collected on the Final Report Form). Sample p.19.
+// The fractional spacers are a tuned starting point; adjust against the sample.
+//
+// Uses page() like the other front-matter builders so it:
+//   (a) inherits US-Letter/1-in margins from dissertation() via the active
+//       set-page context, and
+//   (b) explicitly sets numbering: "i" — the front-matter() set-page rule does
+//       not propagate into explicit page() calls, so the numbering and footer
+//       must be set here to get the correct roman display ("iii").
+#let approval-page(meta) = page(
+  numbering: "i",
+  footer: context align(center, counter(page).display()),
+  footer-descent: 0.5in,
+)[
+  #set par(first-line-indent: 0pt)
+  #v(1fr)
+  #align(left)[
+    The dissertation of #meta.author is approved, and it is acceptable in quality
+    and form for publication on microfilm and electronically.
+  ]
+  #v(3fr)
+  #align(center, single-spaced[
+    University of California San Diego \
+    #meta.year
+  ])
+  #v(2fr)
+]
