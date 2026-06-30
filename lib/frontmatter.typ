@@ -131,6 +131,47 @@
   v(2fr)
 }
 
+// Abstract chair line(s): chair, then co-chair if present. Shared shape with the
+// committee block but centered and chair-only (manual abstract sample p.33).
+#let _chair-line(committee) = {
+  assert(committee.chair != none, message: "committee.chair is required")
+  let lines = ([#_professor(committee.chair), Chair],)
+  if committee.co-chair != none {
+    lines.push([#_professor(committee.co-chair), Co-Chair])
+  }
+  align(center, lines.join(linebreak()))
+}
+
+// Abstract — heading + structured header + double-spaced body. Sample p.33.
+// The 2.5in top margin is achieved on the FIRST page only via a v(1.5in) spacer
+// above the inherited 1in margin (continuation pages stay at 1in). The header is
+// centered with first-line-indent reset; the body keeps the inherited
+// double-spaced 0.5in-indent defaults.
+#let abstract(meta, body) = {
+  pagebreak(weak: true)
+  v(1.5in) // 1in margin + 1.5in = 2.5in top margin on the abstract's first page
+  _prelim-heading("Abstract of the Dissertation")
+  {
+    set par(first-line-indent: 0pt)
+    align(center)[
+      #v(0.5in)
+      #meta.title
+      #v(0.4in)
+      by
+      #v(0.3in)
+      #meta.author
+      #v(0.4in)
+      #meta.degree in #meta.degree-field
+      #v(0.4in)
+      University of California San Diego, #meta.year
+      #v(0.4in)
+      #_chair-line(meta.committee)
+    ]
+  }
+  v(0.5in)
+  body
+}
+
 // Vita (required, doctoral). Sample p.31. Year-column entries as a 2-col grid
 // (single-spaced); optional PUBLICATIONS / FIELDS OF STUDY sections. Author uses
 // "Master" not "Masters" in degree titles (manual note).

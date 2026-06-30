@@ -1,6 +1,6 @@
 #import "../lib/template.typ": dissertation
 #import "../lib/pagination.typ": front-matter, main-matter
-#import "../lib/frontmatter.typ": title-page, copyright-page, approval-page, dedication, epigraph, preface, acknowledgements, vita
+#import "../lib/frontmatter.typ": title-page, copyright-page, approval-page, dedication, epigraph, preface, acknowledgements, vita, abstract
 
 #let meta = (
   title: "This Is the Title of My Dissertation",
@@ -82,3 +82,19 @@
     Major Field: Computing
   ],
 )
+
+#abstract(meta)[
+  The abstract begins here. It is a condensed summary of the work.
+  #context {
+    let n = counter(page).get().first()
+    assert(n == 9, message: "abstract should be page 9 (ix), got " + str(n))
+    [#metadata(n) <p-abs>]
+  }
+]
+
+#main-matter()
+#context {
+  let n = counter(page).get().first()
+  assert(n == 1, message: "first body page should restart at 1, got " + str(n))
+  [Body text. #metadata(n) <p-body>]
+}
