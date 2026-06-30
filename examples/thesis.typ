@@ -85,3 +85,17 @@
   appendix heading does not receive "CHAPTER N" treatment.
 ]
 #bibliography("../references.bib", style: "../styles/ieee-full-authors.csl")
+
+// ── Track A compliance asserts ──────────────────────────────────────────────
+// Title page counted i, copyright page counted ii (both unnumbered).
+#context assert.eq(
+  counter(page).at(query(<ucsd-copyright-page-end>).first().location()).first(),
+  2,
+  message: "copyright page must be counted as page 2 (ii); title is 1 (i)",
+)
+// Main body restarts Arabic page numbering at 1 on the first chapter.
+#context assert.eq(
+  counter(page).at(query(heading).first().location()).first(),
+  1,
+  message: "first chapter heading must fall on Arabic page 1",
+)

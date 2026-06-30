@@ -1,4 +1,4 @@
-#import "../../lib/floats.typ": fig, tbl
+#import "../../lib/floats.typ": fig, tbl, chapter-counter
 #import "../../lib/blocks.typ": long-quote
 
 = Introduction
@@ -18,6 +18,16 @@ A sub-subsection so the table of contents shows a level-3 entry.
 #fig(
   rect(width: 4cm, height: 3cm),
   caption: [A demonstration figure; its caption sits below the image.],
+)
+
+#context assert.eq(
+  numbering(
+    "1.1",
+    chapter-counter.get().first(),
+    counter(figure.where(kind: image)).get().first(),
+  ),
+  "1.1",
+  message: "first figure in chapter 1 should be numbered 1.1",
 )
 
 #tbl(
