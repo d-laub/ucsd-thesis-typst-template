@@ -3,7 +3,7 @@
 #import "../lib/frontmatter.typ": title-page, copyright-page, approval-page, dedication, abstract
 #import "../lib/floats.typ": floats-rules, fig, tbl
 #import "../lib/backmatter.typ": backmatter-rules, appendix
-#import "../lib/lists.typ": table-of-contents, list-of-figures, list-of-schemes, list-of-tables, list-of-graphs
+#import "../lib/lists.typ": table-of-contents, list-of-figures, list-of-schemes, list-of-tables, list-of-graphs, list-of-abbreviations, list-of-symbols, list-of-supplemental-files
 
 #let meta = (
   title: "This Is the Title of My Dissertation",
@@ -24,6 +24,14 @@
 #approval-page(meta)
 #dedication[Dedicated to curiosity.]
 #table-of-contents()
+#list-of-abbreviations((
+  (term: [DNA], definition: [deoxyribonucleic acid]),
+  (term: [RNA], definition: [ribonucleic acid]),
+))
+#list-of-symbols(())  // empty -> must auto-skip
+#list-of-supplemental-files((
+  (term: [dataset.csv], definition: [Raw measurements for Chapter 2.]),
+))
 #list-of-figures()
 #list-of-schemes()  // no schemes in this doc -> must auto-skip
 #list-of-tables()
@@ -86,4 +94,12 @@
     counter(figure.where(kind: image)).at(m0.location()).first(),
   )
   assert(num0 == "1.1", message: "first figure list number should be 1.1; got " + num0)
+}
+
+// ── Author-supplied list assertions ──
+#context {
+  let toc = query(<ucsd-toc-entry>).map(e => e.value.title)
+  assert("List of Abbreviations" in toc, message: "populated abbreviations list must register")
+  assert("List of Supplemental Files" in toc, message: "populated supplemental-files list must register")
+  assert(not ("List of Symbols" in toc), message: "empty symbols list must auto-skip")
 }

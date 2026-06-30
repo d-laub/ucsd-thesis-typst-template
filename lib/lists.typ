@@ -85,3 +85,24 @@
 #let list-of-schemes() = _list-of-floats("List of Schemes", "scheme", [Scheme])
 #let list-of-tables() = _list-of-floats("List of Tables", table, [Table])
 #let list-of-graphs() = _list-of-floats("List of Graphs", "graph", [Graph])
+
+// Author-supplied two-column list (term -> definition). Auto-skips when empty.
+// No page numbers: these reference no located document elements.
+#let _two-col-list(title, entries) = {
+  if entries.len() > 0 {
+    pagebreak(weak: true)
+    prelim-heading(title)
+    register-toc(title)
+    v(2em)
+    single-spaced(grid(
+      columns: (auto, 1fr),
+      column-gutter: 0.5in,
+      row-gutter: 1em,
+      ..entries.map(e => (e.term, e.definition)).flatten(),
+    ))
+  }
+}
+
+#let list-of-abbreviations(entries) = _two-col-list("List of Abbreviations", entries)
+#let list-of-symbols(entries) = _two-col-list("List of Symbols", entries)
+#let list-of-supplemental-files(entries) = _two-col-list("List of Supplemental Files", entries)
