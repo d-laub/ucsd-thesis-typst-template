@@ -84,7 +84,7 @@ Order, with required/optional status:
 
 - [x] No header on this page [P2]
 - [x] Top text left-justified or fully justified; bottom info centered [P2]
-- [x] All information centered vertically on the page [P2]
+- [ ] All information centered vertically on the page [P2] — **finding:** in example-3.png the approval text starts near the top quarter of the page and "University of California San Diego / 2026" sits at ~65% down, leaving ~35% blank below; content block center is ~45% from top, not 50%; not visually centered; see docs/p6-verification.md
 - [x] No signature lines (non-joint UCSD — signatures collected on Final Report Form) [P2]
 - [x] "The dissertation of [Name] is approved, and it is acceptable in quality and
       form for publication on microfilm and electronically." [P2]
@@ -111,7 +111,7 @@ Order, with required/optional status:
 ## Table of Contents & List pages (§III p. 25, samples pp. 26–27)
 
 - [x] TOC required; heading "TABLE OF CONTENTS" [P4]
-- [x] Lists the page each section first appears on [P4]
+- [ ] Lists the page each section first appears on [P4] — TOC refs correct; **known finding:** List of Figures shows Fig 3.1 at p.5 but it renders on p.4 (lib/floats.typ `<ucsd-float-entry>` marker falls after a page-filling landscape float); see docs/p6-verification.md
 - [x] Section/header titles match the body exactly (e.g. "Chapter" if used in text) [P4]
 - [x] Separate List of Figures/Tables/Graphs/Schemes when such items are scattered [P4]
 - [x] List of Supplemental Files when supplemental files submitted [P4]
