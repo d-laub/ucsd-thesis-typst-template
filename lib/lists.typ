@@ -55,3 +55,33 @@
     }
   }
 }
+
+// One List-of-floats page for a given kind. Auto-skips (renders nothing,
+// registers no TOC entry) when no float of that kind exists. Each entry:
+//   "<Supplement> <chap>.<n>: <list-caption> … <page>"
+// number/page are computed from counters at the marker's own location.
+#let _list-of-floats(title, kind, supplement) = {
+  context {
+    let entries = query(<ucsd-float-entry>).filter(m => m.value.kind == kind)
+    if entries.len() > 0 {
+      pagebreak(weak: true)
+      prelim-heading(title)
+      register-toc(title)
+      v(2em)
+      for m in entries {
+        let num = numbering(
+          "1.1",
+          counter("ucsd-chapter").at(m.location()).first(),
+          counter(figure.where(kind: kind)).at(m.location()).first(),
+        )
+        let pg = numbering("1", ..counter(page).at(m.location()))
+        _toc-line([#supplement #num: #m.value.caption], pg)
+      }
+    }
+  }
+}
+
+#let list-of-figures() = _list-of-floats("List of Figures", image, [Figure])
+#let list-of-schemes() = _list-of-floats("List of Schemes", "scheme", [Scheme])
+#let list-of-tables() = _list-of-floats("List of Tables", table, [Table])
+#let list-of-graphs() = _list-of-floats("List of Graphs", "graph", [Graph])
