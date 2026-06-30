@@ -34,8 +34,10 @@
   landscape: false,
 ) = {
   // The List-of caption: the short form when the author supplied one, else the
-  // full caption. P4's lib/lists.typ queries <ucsd-float-entry> and computes the
-  // number/page from counters at the marker's own location.
+  // full caption. lib/lists.typ queries <ucsd-float-entry> for (kind, caption)
+  // only; it reads each float's number/page at the FIGURE's location, not the
+  // marker's (a page-filling float would spill its trailing marker to the next
+  // page). Marker↔figure pair by document order, one of each per _float call.
   let list-caption = if short != none { short } else { caption }
   let entry = [#metadata((kind: kind, caption: list-caption)) <ucsd-float-entry>]
   let make = cap => figure(
@@ -61,8 +63,8 @@
     }
     pagebreak()
     // The float on the next page, no caption (shown on the facing page), still a
-    // real numbered figure. Emit the unified entry AFTER it so the counters at
-    // the marker location reflect this figure.
+    // real numbered figure. The unified entry follows it (lists.typ reads the
+    // number/page at the figure's location, not this marker's).
     let f = make(none)
     if landscape { rotate(-90deg, reflow: true, f) } else { f }
     entry

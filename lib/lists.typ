@@ -59,7 +59,14 @@
 // One List-of-floats page for a given kind. Auto-skips (renders nothing,
 // registers no TOC entry) when no float of that kind exists. Each entry:
 //   "<Supplement> <chap>.<n>: <list-caption> … <page>"
-// number/page are computed from counters at the marker's own location.
+//
+// The <ucsd-float-entry> markers carry only (kind, list-caption). Number AND
+// page are read at the FIGURE's own location — where the float actually renders
+// — NOT the marker's: lib/floats.typ emits the marker right AFTER the float
+// body, so a page-filling float pushes its trailing marker onto the next page,
+// which would mis-report the page (e.g. figure on p.4, marker on p.5). Each
+// _float emits exactly one figure and one marker of its kind in the same
+// document order, so the i-th marker pairs with the i-th figure of that kind.
 #let _list-of-floats(title, kind, supplement) = {
   context {
     let entries = query(<ucsd-float-entry>).filter(m => m.value.kind == kind)
@@ -68,13 +75,15 @@
       prelim-heading(title)
       register-toc(title)
       v(2em)
-      for m in entries {
+      let figs = query(figure.where(kind: kind))
+      for (i, m) in entries.enumerate() {
+        let loc = figs.at(i).location()
         let num = numbering(
           "1.1",
-          counter("ucsd-chapter").at(m.location()).first(),
-          counter(figure.where(kind: kind)).at(m.location()).first(),
+          counter("ucsd-chapter").at(loc).first(),
+          counter(figure.where(kind: kind)).at(loc).first(),
         )
-        let pg = numbering("1", ..counter(page).at(m.location()))
+        let pg = numbering("1", ..counter(page).at(loc))
         _toc-line([#supplement #num: #m.value.caption], pg)
       }
     }

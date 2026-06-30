@@ -68,9 +68,11 @@ appendix and bibliography level-1 headings from being treated as chapters — th
 exact bug locked by `tests/cross-phase.typ`. When editing heading or counter
 logic, keep that test passing and respect this contract.
 
-Two spacing constants are intentionally duplicated as literals: `0.65em` (single
-leading) appears in `blocks.typ` and `backmatter.typ`'s `bib-leading`. Keep them
-in sync if either changes.
+The single-spacing leading is intentionally duplicated as the literal `0.65em`
+rather than a shared constant. `blocks.typ`'s `single-spaced` primitive is the
+canonical home; the same literal also appears in `template.typ` (footnote
+entries), `lists.typ` (`_toc-line`), and `backmatter.typ`'s `bib-leading`. Keep
+all four in sync if the single-spacing value ever changes.
 
 ## Compliance & process
 
