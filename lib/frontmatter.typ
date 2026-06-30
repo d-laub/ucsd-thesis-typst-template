@@ -72,3 +72,21 @@
   #v(1fr)
   #meta.year
 ]
+
+// Copyright page — counted ii, number NOT displayed. Centered just above the
+// bottom margin. Sample p.17. Optional notice; if declined, use blank-page()
+// instead (page ii must still exist — manual p.16).
+#let copyright-page(meta) = page(numbering: none)[
+  #set par(first-line-indent: 0pt)
+  #set align(center)
+  #v(1fr)
+  #single-spaced[
+    Copyright
+
+    #meta.author, #meta.year \
+    All rights reserved.
+  ]
+]
+
+// Empty counted page for the declined-copyright case (page ii, no number).
+#let blank-page() = page(numbering: none)[]

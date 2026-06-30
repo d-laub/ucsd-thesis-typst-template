@@ -1,6 +1,6 @@
 #import "../lib/template.typ": dissertation
 #import "../lib/pagination.typ": front-matter, main-matter
-#import "../lib/frontmatter.typ": title-page
+#import "../lib/frontmatter.typ": title-page, copyright-page
 
 #let meta = (
   title: "This Is the Title of My Dissertation",
@@ -20,3 +20,4 @@
 #front-matter()
 
 #title-page(meta)
+#copyright-page(meta)
