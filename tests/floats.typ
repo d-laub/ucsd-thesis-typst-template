@@ -21,7 +21,7 @@ Body text under chapter one.
 }
 
 // --- Per-chapter numbering assertions (Task 3): chapter one figures ---
-#fig(rect(width: 2cm, height: 1cm), caption: [First figure of chapter one.])
+#fig(rect(width: 2cm, height: 1cm), caption: [First figure of chapter one.], short: [Short 1.1.])
 #context assert.eq(
   str(chapter-counter.get().first()) + "."
     + str(counter(figure.where(kind: image)).get().first()),
@@ -73,3 +73,25 @@ Body text under chapter two.
   caption: [A wide landscape graph rotated 90 degrees.],
   landscape: true,
 )
+
+// P4 prep: every float (regular AND facing) emits a unified <ucsd-float-entry>
+// marker carrying the list caption (the `short` form when provided).
+#context {
+  let entries = query(<ucsd-float-entry>)
+  // 4 image figs (1.1, 1.2, 2.1, facing) + 1 tbl + 1 scheme + 2 graph = 8.
+  assert(
+    entries.len() == 8,
+    message: "expected 8 float entries; got " + str(entries.len()),
+  )
+  let imgs = entries.filter(m => m.value.kind == image)
+  assert(
+    imgs.at(0).value.caption == [Short 1.1.],
+    message: "first image entry must carry the SHORT caption; got " + repr(imgs.at(0).value.caption),
+  )
+  // The facing float (chapter 3) has caption:none on its figure but must still
+  // appear as an entry carrying its full caption.
+  assert(
+    imgs.at(3).value.caption == [A facing-caption figure; its caption is on the preceding page.],
+    message: "facing float must register its full caption; got " + repr(imgs.at(3).value.caption),
+  )
+}
