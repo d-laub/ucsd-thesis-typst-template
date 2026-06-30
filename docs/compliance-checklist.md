@@ -84,7 +84,7 @@ Order, with required/optional status:
 
 - [x] No header on this page [P2]
 - [x] Top text left-justified or fully justified; bottom info centered [P2]
-- [ ] All information centered vertically on the page [P2] — **finding:** in example-3.png the approval text starts near the top quarter of the page and "University of California San Diego / 2026" sits at ~65% down, leaving ~35% blank below; content block center is ~45% from top, not 50%; not visually centered; see docs/p6-verification.md
+- [x] All information centered vertically on the page [P2] — matches the manual non-joint sample (p.18): approval statement in the upper area, "University of California San Diego" + year in the lower-middle, blank bottom; content span centered ~48% on the page. See docs/p6-verification.md.
 - [x] No signature lines (non-joint UCSD — signatures collected on Final Report Form) [P2]
 - [x] "The dissertation of [Name] is approved, and it is acceptable in quality and
       form for publication on microfilm and electronically." [P2]
