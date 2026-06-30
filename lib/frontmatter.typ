@@ -132,7 +132,7 @@
 }
 
 // Abstract chair line(s): chair, then co-chair if present. Shared shape with the
-// committee block but centered and chair-only (manual abstract sample p.33).
+// committee block but centered and without the members (manual abstract sample p.33).
 #let _chair-line(committee) = {
   assert(committee.chair != none, message: "committee.chair is required")
   let lines = ([#_professor(committee.chair), Chair],)

@@ -20,7 +20,7 @@
     paper: "us-letter",
     margin: 1in,
     footer: context {
-      let m = state("ucsd-matter").get()
+      let m = state("ucsd-matter", "main").get()
       let pat = if m == "front" { "i" } else { "1" }
       align(center, counter(page).display(pat))
     },
