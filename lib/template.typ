@@ -10,7 +10,22 @@
   year: none,
   body,
 ) = {
-  set page(paper: "us-letter", margin: 1in)
+  // State-driven footer: reads "ucsd-matter" (same cross-module contract as
+  // floats.typ — Typst state is global, keyed by string, no import needed) to
+  // choose roman or arabic display.  This is the only place the footer can live:
+  // dissertation() is applied via #show, so its set rules propagate to the whole
+  // document; front-matter()/main-matter() cannot do this because set rules inside
+  // function bodies do not propagate beyond the function call.
+  set page(
+    paper: "us-letter",
+    margin: 1in,
+    footer: context {
+      let m = state("ucsd-matter").get()
+      let pat = if m == "front" { "i" } else { "1" }
+      align(center, counter(page).display(pat))
+    },
+    footer-descent: 0.5in,
+  )
   set text(font: "TeX Gyre Heros", size: 12pt, fill: black, lang: "en")
   set par(
     leading: body-leading,
