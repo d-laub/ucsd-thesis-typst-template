@@ -111,7 +111,7 @@ Order, with required/optional status:
 ## Table of Contents & List pages (§III p. 25, samples pp. 26–27)
 
 - [x] TOC required; heading "TABLE OF CONTENTS" [P4]
-- [ ] Lists the page each section first appears on [P4] — TOC refs correct; **known finding:** List of Figures shows Fig 3.1 at p.5 but it renders on p.4 (lib/floats.typ `<ucsd-float-entry>` marker falls after a page-filling landscape float); see docs/p6-verification.md
+- [x] Lists the page each section first appears on [P4] — TOC + all List-of pages; verified the landscape-float page reference (List of Figures Fig 3.1 → p.4) after the lib/lists.typ figure-location fix; see docs/p6-verification.md
 - [x] Section/header titles match the body exactly (e.g. "Chapter" if used in text) [P4]
 - [x] Separate List of Figures/Tables/Graphs/Schemes when such items are scattered [P4]
 - [x] List of Supplemental Files when supplemental files submitted [P4]

@@ -1,6 +1,6 @@
 #import "lib/template.typ": dissertation
 #import "lib/pagination.typ": front-matter, main-matter, back-matter
-#import "lib/frontmatter.typ": title-page, copyright-page, approval-page, acknowledgements, vita, abstract
+#import "lib/frontmatter.typ": title-page, copyright-page, approval-page, vita, abstract
 #import "lib/lists.typ": table-of-contents, list-of-figures, list-of-tables
 #import "lib/floats.typ": floats-rules
 #import "lib/backmatter.typ": backmatter-rules
