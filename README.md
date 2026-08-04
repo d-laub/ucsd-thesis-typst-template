@@ -19,6 +19,31 @@ output is identical on any machine.
 TeX Gyre Heros (a free Helvetica/Arial metric clone) is vendored under `fonts/`
 and used via `--font-path fonts`. No font substitution was needed.
 
+## Citation style
+
+Two numeric styles ship under `styles/`, both printing every author (the manual
+forbids depersonalizing non-primary authors as "et al."). Pick one in the
+`#bibliography` call at the end of your `thesis.typ`:
+
+| Style file | In text | Reference list |
+| --- | --- | --- |
+| `ieee-full-authors.csl` (default) | `[1]`, `[2], [3]` | `[1] J. Watson and F. Crick, ...` |
+| `ieee-full-authors-superscript.csl` | `¹`, `²,³`, `¹⁻³` | `1. J. Watson and F. Crick, ...` |
+
+    #bibliography("references.bib", style: "styles/ieee-full-authors-superscript.csl")
+
+Use exactly one throughout — the manual requires a consistent citation and
+reference style, which is why the superscript variant also numbers the reference
+list `1.` rather than `[1]`.
+
+With the superscript style, the marker goes **after** terminal punctuation, so
+write the citation with no space before it:
+
+    The result replicates.@wc1953        // renders: The result replicates.¹
+
+Consecutive numbers collapse automatically: `@a @b` gives `²,³` and three or more
+in sequence give a range such as `¹⁻³`.
+
 ## Line spacing
 
 Body text is double-spaced as clean typographic 2.0×: the line leading is the

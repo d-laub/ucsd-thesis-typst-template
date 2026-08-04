@@ -41,6 +41,39 @@ Example abstract body (text inside `#abstract(meta)[…]`): **64 words** (< 350)
 
 Word count command: `wc -w build/_abstract.txt` → `64`.
 
+## Superscript citation style
+
+Added after the original P6 report, when `styles/ieee-full-authors-superscript.csl`
+was introduced alongside the default bracketed style. Compiling
+`tests/citation-superscript.typ` clean is the automated gate; superscript
+rendering itself is not expressible as an in-document assert, so it is verified
+from the PDF text layer:
+
+    pixi run typst compile --font-path fonts --root . \
+      tests/citation-superscript.typ build/citation-superscript.pdf
+    pdftotext build/citation-superscript.pdf -
+
+| Check | Command | Expected | Result |
+|---|---|---|---|
+| Compiles zero-warning | `typst compile … tests/citation-superscript.typ` | no output | PASS |
+| No brackets around in-text numbers | `pdftotext … \| grep -c '\[[0-9]\]'` | `0` | PASS |
+| All authors printed (no et al.) | `pdftotext … \| grep -ci 'et al'` | `0` | PASS |
+| 8th author present | `pdftotext … \| grep -c 'Davis'` | `1` | PASS |
+| Single citation | text layer after "sentence." | `1` | PASS |
+| Adjacent pair comma-joined | text layer after "group." | `2,3` | PASS |
+| Three consecutive collapse to a range | text layer after "list." | `1–3` | PASS |
+| Reference list numbered `n.` not `[n]` | text layer, Bibliography | `1.` `2.` `3.` | PASS |
+| Default style unaffected | `pdftotext build/backmatter.pdf - \| grep -o '\[[0-9]\]'` | `[1] [2] [3]` | PASS |
+
+Superscript is rendered as a scaled glyph rather than a raised full-size one, so
+the double-spaced `body-leading` is unchanged. Measured with `pdftotext -bbox` on
+`build/citation-superscript.pdf`: consecutive body lines sit at yMin 71.340,
+104.436, 137.532, 170.628 — a uniform **33.096 pt** advance across lines that do
+and do not carry a citation, matching the calibrated double space (native single
+advance 16.55 pt × 2.0 = 33.1 pt). The superscript glyph's own box starts
+0.44 pt above the baseline text and does not extend the line. All nine
+`tests/*.typ` still compile zero-warning after the change.
+
 ## Spacer tuning
 
 No spacer tuning was performed. All front-matter pages (title, copyright, approval, abstract) match the manual samples acceptably without adjustment to `lib/frontmatter.typ`.

@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  The default citation style: bracketed "[1]" in text and in the reference list.
+
+  ieee-full-authors-superscript.csl is the superscript sibling of this file; the
+  two differ only in how the citation number is rendered.  The `author` macro
+  below is duplicated there because CSL has no include mechanism, and its
+  et-al-min/et-al-use-first="99" is a hard UCSD requirement, so the two copies
+  MUST stay in sync -- see CLAUDE.md.
+-->
 <style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" default-locale="en-US">
   <info>
     <title>IEEE (Full Authors — UCSD Dissertation)</title>

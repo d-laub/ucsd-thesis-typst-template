@@ -55,6 +55,23 @@ the others layer on top via `#show` in the document, not by editing
   blank line between entries) and the auto-lettered `appendix(title, body)`.
 - **`lib/blocks.typ`** — the `single-spaced` primitive (0.65em leading) reused by
   every single-spacing carve-out, and `long-quote`.
+- **`styles/`** — the two shipped CSL citation styles (not a `lib/` module; they
+  are passed to `#bibliography(..., style: ...)` by the document, so choosing one
+  is the author's call and nothing in `lib/` reads them).
+  `ieee-full-authors.csl` is the default (`[n]` in text and in the list);
+  `ieee-full-authors-superscript.csl` renders the in-text number as a superscript
+  and numbers the list `n.` to match.
+
+#### The duplicated `author` macro (read before editing either CSL)
+
+CSL has no include mechanism, so the `author` macro — and specifically its
+`et-al-min="99" et-al-use-first="99"` — is duplicated verbatim in **both** files
+under `styles/`. That threshold is what satisfies the manual's ban on
+depersonalizing non-primary authors as "et al.", so the copies MUST stay in sync;
+editing one and not the other silently breaks compliance for whichever style the
+author happens to have selected. This is the same "duplicated on purpose,
+documented here" arrangement as the `0.65em` literal below. The two styles are
+intended to differ **only** in citation-number rendering.
 
 ### The matter-state contract (read before touching headings/counters)
 

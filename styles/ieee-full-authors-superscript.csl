@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Superscript sibling of ieee-full-authors.csl.
+
+  The two styles differ ONLY in how the citation number is rendered:
+    ieee-full-authors.csl              in-text "[1]"   bibliography "[1] ..."
+    ieee-full-authors-superscript.csl  in-text  "1"    bibliography  "1. ..."
+  (superscript in-text, per Nature/Science/Cell convention)
+
+  The `author` macro below is duplicated verbatim from ieee-full-authors.csl
+  because CSL has no include mechanism.  Its et-al-min/et-al-use-first="99" is a
+  hard UCSD requirement (non-primary authors must not be depersonalized as
+  "et al."), so the two copies MUST stay in sync -- see CLAUDE.md.
+-->
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" default-locale="en-US">
+  <info>
+    <title>IEEE (Full Authors, Superscript — UCSD Dissertation)</title>
+    <id>https://standardmodel.bio/csl/ieee-full-authors-superscript</id>
+    <updated>2026-08-04T00:00:00+00:00</updated>
+    <summary>Superscript numeric style; et-al threshold lifted so all authors always print.</summary>
+  </info>
+  <macro name="author">
+    <names variable="author">
+      <name and="text" delimiter=", " initialize-with=". "
+            et-al-min="99" et-al-use-first="99"/>
+    </names>
+  </macro>
+  <macro name="issued-year">
+    <date variable="issued">
+      <date-part name="year"/>
+    </date>
+  </macro>
+  <citation collapse="citation-number">
+    <!-- vertical-align on the layout superscripts the numbers AND the delimiter,
+         so a multi-citation reads "2,3" entirely above the baseline. -->
+    <layout vertical-align="sup" delimiter=",">
+      <text variable="citation-number"/>
+    </layout>
+  </citation>
+  <bibliography second-field-align="flush">
+    <layout>
+      <text variable="citation-number" suffix=". "/>
+      <text macro="author" suffix=", "/>
+      <text variable="title" quotes="true" suffix=", "/>
+      <text variable="container-title" font-style="italic" suffix=", "/>
+      <text macro="issued-year" suffix="."/>
+    </layout>
+  </bibliography>
+</style>
