@@ -6,10 +6,13 @@
     <updated>2026-06-26T00:00:00+00:00</updated>
     <summary>Numeric [n] style; et-al threshold lifted so all authors always print.</summary>
   </info>
+  <!-- No et-al-min/et-al-use-first: with neither set, CSL never abbreviates an
+       author list, which is what the UCSD manual requires. These were previously
+       set to 99, which still truncated papers with 100+ authors (routine for
+       large consortia) and silently dropped the trailing authors. -->
   <macro name="author">
     <names variable="author">
-      <name and="text" delimiter=", " initialize-with=". "
-            et-al-min="99" et-al-use-first="99"/>
+      <name and="text" delimiter=", " initialize-with=". "/>
     </names>
   </macro>
   <macro name="issued-year">

@@ -41,6 +41,64 @@ Example abstract body (text inside `#abstract(meta)[…]`): **64 words** (< 350)
 
 Word count command: `wc -w build/_abstract.txt` → `64`.
 
+## Nature citation style
+
+Added after the original P6 report, when `styles/nature-full-authors.csl` was
+introduced alongside the bracketed default. Compiling `tests/citation-nature.typ`
+clean is the automated gate; superscript rendering and reference format are not
+expressible as in-document asserts, so they are verified from the PDF text layer:
+
+    pixi run typst compile --font-path fonts --root . \
+      tests/citation-nature.typ build/citation-nature.pdf
+    pdftotext build/citation-nature.pdf -
+
+| Check | Expected | Result |
+|---|---|---|
+| Compiles zero-warning | no output | PASS |
+| No brackets around in-text numbers | `grep -c '\[[0-9]\]'` → `0` | PASS |
+| Single citation | `1` after "sentence." | PASS |
+| Adjacent pair comma-joined | `2,3` after "group." | PASS |
+| Three consecutive collapse to a range | `1–3` after "list." | PASS |
+| Nature reference format | `1. Watson, J. & Crick, F. Molecular Structure of Nucleic Acids. Nature 171, 737–738 (1953).` | PASS |
+| `&` before final author, 8-author entry | `… Miller, G. & Davis, H.` | PASS |
+| Italic journal, bold volume, italic book title | visual, `build/citation-nature.png` @150 ppi | PASS |
+| Default style unaffected | `build/backmatter.pdf` still `[1] [2] [3]` | PASS |
+
+**Bibliography spacing vs. the upstream CSL.** Upstream `nature.csl` sets
+`line-spacing="2" entry-spacing="0"` on `<bibliography>`, which would conflict
+with the manual's single-spaced-bibliography rule if honored. It is not:
+`backmatter-rules`' Typst `par(leading: 0.65em, spacing: 1.3em)` governs. Measured
+with `pdftotext -bbox` on `build/citation-nature.pdf` — within-entry line advance
+**16.548 pt** (the native single advance) and between-entry advance **24.348 pt**,
+i.e. single-spaced entries separated by a blank line, matching the default style.
+The attributes are left in place so the diff against upstream stays minimal.
+
+**Leading is undisturbed by the raised glyph.** Body lines sit at yMin 71.340 /
+104.436 / 137.532 / 170.628 — a uniform **33.096 pt** advance across lines that do
+and do not carry a citation, matching the calibrated double space (16.55 pt × 2.0).
+Typst scales the superscript glyph rather than raising a full-size one.
+
+## Full author lists (no "et al.") — regression
+
+**This check previously failed.** Both styles set `et-al-min="99"
+et-al-use-first="99"`, which reads as "never abbreviate" but is still a numeric
+cap: a 105-author entry was truncated to the first author + "et al.", silently
+dropping the rest. Large-consortium papers in genomics routinely exceed 99
+authors, so this was reachable in practice, not theoretical.
+
+**Fix:** both styles now omit `et-al-min`/`et-al-use-first` altogether. With
+neither attribute set, CSL performs no truncation at any list length.
+
+Guarded by `tests/consortium.bib` (one 105-author entry, deliberately above the
+old 99 cap) cited from `tests/citation-full-authors.typ` (default style) and
+`tests/citation-full-authors-nature.typ` (Nature style).
+
+| Style | `grep -ci 'et al'` | `grep -c 'Surname105'` | Result |
+|---|---|---|---|
+| `ieee-full-authors.csl` before fix | `1` | `0` | FAIL (as found) |
+| `ieee-full-authors.csl` after fix | `0` | `1` | PASS |
+| `nature-full-authors.csl` | `0` | `1` | PASS |
+
 ## Spacer tuning
 
 No spacer tuning was performed. All front-matter pages (title, copyright, approval, abstract) match the manual samples acceptably without adjustment to `lib/frontmatter.typ`.

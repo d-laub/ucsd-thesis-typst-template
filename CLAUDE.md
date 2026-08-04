@@ -55,6 +55,34 @@ the others layer on top via `#show` in the document, not by editing
   blank line between entries) and the auto-lettered `appendix(title, body)`.
 - **`lib/blocks.typ`** — the `single-spaced` primitive (0.65em leading) reused by
   every single-spacing carve-out, and `long-quote`.
+- **`styles/`** — the shipped CSL citation styles. Not a `lib/` module: nothing
+  in `lib/` reads them, they are passed to `#bibliography(..., style: ...)` by
+  the document, so choosing one is the author's call.
+  `ieee-full-authors.csl` is the default (bracketed `[n]`);
+  `nature-full-authors.csl` is Nature journal style (superscript `n` in text,
+  Nature reference format).
+
+### No "et al." — the rule both styles exist to satisfy
+
+The manual forbids depersonalizing non-primary authors as "et al." Every style
+shipped here must therefore print **all** authors, and the way to guarantee that
+is to omit `et-al-min`/`et-al-use-first` entirely — with neither set, CSL never
+abbreviates.
+
+Do **not** "disable" truncation by setting a large threshold. Both styles
+previously used `et-al-min="99"`, which reads as never but still truncated a
+105-author entry and dropped the trailing authors; large-consortium papers
+routinely exceed 99 authors. `tests/citation-full-authors.typ` and
+`tests/citation-full-authors-nature.typ` cite a 105-author fixture
+(`tests/consortium.bib`) specifically to catch a reintroduced cap.
+
+`nature-full-authors.csl` is a modified copy of the upstream CSL project's
+`nature.csl` (CC BY-SA 3.0 — the license and upstream credits are preserved in
+its `<info>`). Removing the upstream `et-al-min="6" et-al-use-first="1"` is the
+**only** intended deviation; keep any re-sync with upstream to that one delta,
+and keep the deviation documented in the file header. Its
+`line-spacing="2"`/`entry-spacing="0"` are inert here — `backmatter-rules`'
+Typst `par(leading:, spacing:)` governs bibliography spacing and overrides them.
 
 ### The matter-state contract (read before touching headings/counters)
 
