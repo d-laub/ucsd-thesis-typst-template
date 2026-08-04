@@ -137,8 +137,8 @@ Order, with required/optional status:
 - [x] Appendices may be single-spaced [P5]
 - [x] Bibliography single-spaced with a double space between entries [P5] — `backmatter-rules` sets `par(leading: 0.65em, spacing: 1.3em)` on `bibliography`; layout dump confirms single-spaced wrapped lines within an entry and one blank line between entries
 - [x] Bibliography is the last entry in each chapter or in the manuscript [P5]
-- [x] Non-primary authors not depersonalized as "et al." in the bibliography [P5] — custom `styles/ieee-full-authors.csl` sets `et-al-min="99" et-al-use-first="99"`; the 8-author `octuple2023` entry prints all authors (last author "Davis" present, `grep -c "et al" == 0`)
-- [x] Consistent citation/reference style throughout [P5] — a single numeric CSL drives both in-text `[n]` citations and the bibliography (verified: `[1]`–`[3]` in body, numbered reference list)
+- [x] Non-primary authors not depersonalized as "et al." in the bibliography [P5] — **both** shipped styles (`styles/ieee-full-authors.csl`, `styles/nature-full-authors.csl`) omit `et-al-min`/`et-al-use-first` entirely, so CSL never abbreviates. Verified at two sizes: the 8-author `octuple2023` entry prints all authors (last author "Davis" present), and the 105-author `tests/consortium.bib` fixture prints "Surname105" with `grep -ci "et al" == 0` under each style (`tests/citation-full-authors.typ`, `tests/citation-full-authors-nature.typ`). **Previously failing:** both styles used `et-al-min="99"`, which truncated the 105-author entry — see docs/p6-verification.md, "Full author lists"
+- [x] Consistent citation/reference style throughout [P5] — one CSL drives both the in-text citations and the bibliography, whichever style is selected. Default `ieee-full-authors.csl`: `[1]`–`[3]` in body, `[n]`-numbered list. Optional `nature-full-authors.csl`: superscript `¹`/`²,³`/`¹⁻³` in body with a matching `n.`-numbered Nature-format list. Selecting one style per document is the author's responsibility; mixing them is out of scope for the template to enforce
 
 ## Acknowledgements — co-authored/published material (§III p. 28, sample p. 29)
 
