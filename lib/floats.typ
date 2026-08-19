@@ -120,6 +120,7 @@
           counter(figure.where(kind: table)).update(0)
           counter(figure.where(kind: "scheme")).update(0)
           counter(figure.where(kind: "graph")).update(0)
+          counter(math.equation).update(0)
           // Two-line centered CHAPTER N / title, no italics, single-spaced pair.
           // chapter-counter was just stepped; a nested context reads the new value.
           set align(center)
@@ -151,6 +152,11 @@
 
   // Captions single-spaced via the P0 primitive.
   show figure.caption: single-spaced
+
+  // A float whose image and caption together exceed the text block must break
+  // rather than overflow the bottom margin: Typst floats are unbreakable blocks
+  // by default and silently spill. The break falls between image and caption.
+  show figure: set block(breakable: true)
 
   body
 }
